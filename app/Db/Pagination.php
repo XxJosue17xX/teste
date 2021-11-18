@@ -2,7 +2,8 @@
 
 namespace App\Db;
 
-class Pagination{
+class Pagination
+{
 
     /**
      * numero maximo de registros por pagina
@@ -34,7 +35,8 @@ class Pagination{
      * @param integer
      * @param integer
      */
-    public function __construct($results,$currentPage = 1, $limit = 10){
+    public function __construct($results, $currentPage = 1, $limit = 10)
+    {
         $this->results = $results;
         $this->limit   = $limit;
         $this->currentPage = (is_numeric($currentPage) and  $currentPage > 0) ? $currentPage : 1;
@@ -44,7 +46,8 @@ class Pagination{
     /**
      * metodo responsavel por calcular a paginação
      */
-    private function calculate(){
+    private function calculate()
+    {
         //calcula o total de paginas
         $this->pages = $this->results > 0 ? ceil($this->results / $this->limit) : 1;
 
@@ -56,27 +59,30 @@ class Pagination{
      * metodo responsavel por retornar a clausula limit da sql
      * @return string
      */
-    public function getLimit(){
+    public function getLimit()
+    {
         $offset = ($this->limit * ($this->currentPage - 1));
-        return $offset.','.$this->limit;
+        return $offset . ',' . $this->limit;
     }
 
     /**
      * metodo responsavel por retornar as opçoes de paginas disponiveis
      * @return array
      */
-    public function getPages(){
+    public function getPages()
+    {
         //não retorna paginas
-        if($this->pages == 1) return [];
+        if ($this->pages == 1) return [];
 
         //paginas
         $paginas = [];
-        for($i = 1; $i <= $this->pages; $i++){
+        for ($i = 1; $i <= $this->pages; $i++) {
             $paginas[] = [
                 'pagina' => $i,
                 'atual' => $i == $this->currentPage
             ];
         }
-    }
 
+        return $paginas;
+    }
 }
